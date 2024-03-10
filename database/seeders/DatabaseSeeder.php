@@ -55,6 +55,8 @@ class DatabaseSeeder extends Seeder
         RoomTypes::create([
             'name' => 'Superior Room',
             'price' => 250000,
+            'available' => 100,
+            'total' => 0,
             'description' => 'sumthing',
             'image' => ''
         ]);
@@ -62,6 +64,8 @@ class DatabaseSeeder extends Seeder
         RoomTypes::create([
             'name' => 'Executive Room',
             'price' => 450000,
+            'available' => 100,
+            'total' => 0,
             'description' => 'sumthing',
             'image' => ''
         ]);
@@ -69,6 +73,8 @@ class DatabaseSeeder extends Seeder
         RoomTypes::create([
             'name' => 'Superior Family Room',
             'price' => 350000,
+            'available' => 100,
+            'total' => 0,
             'description' => 'sumthing',
             'image' => ''
         ]);
@@ -76,6 +82,8 @@ class DatabaseSeeder extends Seeder
         RoomTypes::create([
             'name' => 'Deluxe Room',
             'price' => 400000,
+            'available' => 100,
+            'total' => 0,
             'description' => 'sumthing',
             'image' => ''
         ]);
@@ -83,11 +91,15 @@ class DatabaseSeeder extends Seeder
         RoomTypes::create([
             'name' => 'Deluxe Family Room',
             'price' => 550000,
+            'available' => 100,
+            'total' => 0,
             'description' => 'sumthing',
             'image' => ''
         ]);
 
-        Booking::factory(200)->create();
+        Booking::factory(50)->create();
+
+        Test::factory(50)->create();
 
     }
 }

@@ -16,7 +16,7 @@ class BookingController extends Controller
     {
         return view('booking.index', [
             'title' => 'Booking',
-            'booking' => Booking::with(['room', 'customers'])->orderBy('checkIn')->paginate(50)
+            'booking' => Booking::with(['room', 'customers'])->orderBy('id', 'desc')->paginate(50)
         ]);
     }
 
@@ -51,6 +51,17 @@ class BookingController extends Controller
         ]);
 
         Booking::create($validatedData);
+
+        // Jika booking ditambahkan, kurangi value room_types.available dengan bookings.numOfRoom 
+        // Jika booking ditambahkan, tambahkan value room_types.total dengan bookings.numOfRoom 
+        $room = $request->room_id;
+        $total = (int)request()->numOfRoom;
+        $totalDb = RoomTypes::select('total')->value('total');
+        $availDb = RoomTypes::select('available')->value('available');
+
+
+        RoomTypes::where('id', $room)->update(['total' => $totalDb + $total ]);
+        RoomTypes::where('id', $room)->update(['available' => $availDb - $total]);
 
         return redirect('/booking')->with('success', 'Booking baru berhasil ditambakan !');
     }

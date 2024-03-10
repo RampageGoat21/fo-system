@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('checkOut')->nullable();
             $table->integer('priceSum');
             $table->enum('status', [1, 2, 3])->default(1);
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

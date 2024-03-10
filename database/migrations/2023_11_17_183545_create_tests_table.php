@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('age');
-            $table->integer('class');
+            $table->foreignId('room_id');
+            $table->integer('num');
             $table->string('describe');
             $table->timestamp('last_seen');
             $table->timestamps();

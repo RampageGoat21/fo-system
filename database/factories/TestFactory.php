@@ -19,7 +19,8 @@ class TestFactory extends Factory
         return [
             'name' => fake()->name(),
             'age' => fake()->numberBetween(10, 35),
-            'class' => mt_rand(1,5),
+            'room_id' => mt_rand(1,5),
+            'num' => mt_rand(1,3),
             'describe' => fake()->sentence(),
             'last_seen' => fake()->dateTimeBetween('-1 week', '+1 week')
         ];

@@ -49,25 +49,36 @@ class TestController extends Controller
         $date3 = Carbon::create(2023, 12, 1);
         $date4 = Carbon::create(2023, 12, 31);
         
-        $query = Test::with('room')->orderBy('last_seen')->whereDate('tests.last_seen', '>=', $date1)->whereDate('tests.last_seen', '<=', $date2)->get();
+        $query = Test::with('room')->orderBy('room_id')->get();
         
         // Query untuk menampilkan label dibawah chart
         $room = RoomTypes::orderBy('id')->get('name');
-
+        
         // Query untuk menghitung data didalam database
         $value = Test::join('room_types', 'tests.room_id', '=', 'room_types.id')
-                     ->select('room_types.id as id', 'room_types.name as name', DB::raw("count(tests.room_id) as count"))
-                     ->whereDate('tests.last_seen', '>=', $date1)
-                     ->whereDate('tests.last_seen', '<=', $date2)
-                     ->groupBy('room_types.id')
-                     ->orderBy('room_types.id')
-                     ->get();
+                    ->select('room_types.id as id', 'room_types.name as name')
+                    ->selectRaw('sum(tests.num) as num')
+                    ->groupBy('room_types.id')
+                    ->orderBy('room_types.id')
+                    ->get();
+                     
+        $kamar = RoomTypes::select('name', 'available', 'total')->get();
+
+        $coba = Test::join('room_types', 'tests.room_id', '=', 'room_types.id')
+                    ->select('room_types.id as id', 'room_types.name as name')
+                    ->selectRaw('sum(tests.num) as num')
+                    ->selectRaw('room_types.available - sum(tests.num) as avail')
+                    ->groupBy('room_types.id')
+                    ->orderBy('room_types.id')
+                    ->get();
 
         return view('test.index', [
             'title' => 'Test',
             'test' => $query,
             'room' => $room,
             'value' => $value,
+            'coba' => $coba,
+            'kamar' => $kamar,
             'date' => [$date3, $date4]
         ]);
     }

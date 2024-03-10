@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('price');
+            $table->integer('available');
+            $table->integer('total');
             $table->string('description');
             $table->string('image')->nullable();
             $table->timestamps();
